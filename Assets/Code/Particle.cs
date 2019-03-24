@@ -8,6 +8,13 @@ using UnityEngine;
 [RequiresEntityConversion]
 public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
 
+    private enum Regime {
+        Newtonian
+    }
+
+    [SerializeField]
+    private Regime regime = Regime.Newtonian;
+
     [SerializeField]
     private Vector2 velocity = new Vector2(0f, 0f);
 
@@ -22,15 +29,21 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         this.entity = entity;
         this.manager = World.Active.GetOrCreateManager<EntityManager>();
 
-        var transform = GetComponent<Transform>();
-        var position = new Vector2(transform.position.x, transform.position.y);
-        var data = new Vectors {
-            Position = new double2(position.x, position.y),
-            Velocity = new double2(velocity.x, velocity.y)
-        };
+        switch (regime) {
+            case Regime.Newtonian:
 
-        logInitialState(gameObject.name, data);
-        manager.AddComponentData(entity, data);
+                var transform = GetComponent<Transform>();
+                var position = new Vector2(transform.position.x, transform.position.y);
+                var data = new Newtonian.Vectors {
+                    Position = new double2(position.x, position.y),
+                    Velocity = new double2(velocity.x, velocity.y)
+                };
+
+                logInitialState(gameObject.name, data);
+                manager.AddComponentData(entity, data);
+
+                break;
+        }
     }
 
     public void Update() {
