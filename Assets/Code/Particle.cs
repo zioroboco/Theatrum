@@ -29,20 +29,21 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         this.entity = entity;
         this.manager = World.Active.GetOrCreateManager<EntityManager>();
 
-        switch (regime) {
-            case Regime.Newtonian:
+        var transform = GetComponent<Transform>();
+        var position = new Vector2(transform.position.x, transform.position.y);
 
-                var transform = GetComponent<Transform>();
-                var position = new Vector2(transform.position.x, transform.position.y);
-                var data = new Newtonian.Vectors {
-                    Position = new double2(position.x, position.y),
-                    Velocity = new double2(velocity.x, velocity.y)
-                };
+        var vectors = new Newtonian.Vectors {
+            Position = new double2(position.x, position.y),
+            Velocity = new double2(velocity.x, velocity.y)
+        };
 
-                logInitialState(gameObject.name, data);
-                manager.AddComponentData(entity, data);
+        if (this.regime == Regime.Newtonian) {
 
-                break;
+            logInitialState(gameObject.name, vectors);
+            manager.AddComponentData(entity, vectors);
+
+        } else {
+            throw new NotImplementedException();
         }
     }
 
