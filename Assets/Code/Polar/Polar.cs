@@ -30,9 +30,10 @@ public class Polar {
   public static double2 toPolarVector(double2 v, Position p) {
     var vHat = math.normalizesafe(v);
     var vMag = math.length(v);
+    var _rHat = rHat(p.theta);
     return vMag * new double2(
-      math.dot(vHat, thetaHat(p.theta)),
-      math.dot(vHat, rHat(p.theta))
+      math.dot(vHat, thetaHat(_rHat)),
+      math.dot(vHat, _rHat)
     );
   }
 
@@ -44,21 +45,27 @@ public class Polar {
   }
 
   /// <summary>
-  /// Find world-space radial unit vector for a given angle theta.
+  /// Find world-space radial unit double2 for a given angle theta.
   /// </summary>
   public static double2 rHat(double theta) {
     return toVector(new Position { r = 1d, theta = theta });
   }
 
   /// <summary>
-  /// Find world-space tangential unit vector for a given angle theta.
+  /// Find world-space tangential unit double2 for a given radial unit double2.
+  /// </summary>
+  public static double2 thetaHat(double2 rHat) {
+    var _thetaHat3 = math.normalizesafe(
+      math.cross(-zHat3, new double3(rHat.x, rHat.y, 0d))
+    );
+    return new double2(_thetaHat3.x, _thetaHat3.y);
+  }
+
+  /// <summary>
+  /// Find world-space tangential unit double2 for a given angle theta.
   /// </summary>
   public static double2 thetaHat(double theta) {
-    var _rHat = rHat(theta);
-    var _thetaHat = math.normalizesafe(
-      math.cross(-zHat3, new double3(_rHat.x, _rHat.y, 0d))
-    );
-    return new double2(_thetaHat.x, _thetaHat.y);
+    return thetaHat(rHat(theta));
   }
 
 }
