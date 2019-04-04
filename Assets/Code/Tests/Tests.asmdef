@@ -1,7 +1,8 @@
 {
     "name": "Tests",
     "references": [
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "Polar"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
