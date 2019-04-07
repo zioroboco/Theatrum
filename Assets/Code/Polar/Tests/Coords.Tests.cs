@@ -8,7 +8,27 @@ using UnityEngine.TestTools;
 
 public class Coords {
 
+    private static double tolerance = 1E-15d;
+
     public class Type {
+
+        [Test]
+        public void Constructor_WorldVector() {
+            var expected = new coords(2d, math.PI / 2d);
+            var actual = new coords(new double2(0d, 2d));
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
+
+        [Test]
+        public void Constructor_PolarVector() {
+            var v = new double2(1d, -1d);
+            var prev = new coords(1d, math.PI / 2d);
+            var expected = new coords(1d, math.PI);
+            var actual = new coords(v, prev);
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
 
         [Test]
         public void Zero() {
@@ -73,8 +93,6 @@ public class Coords {
     }
 
     public class Utils {
-
-        private static double tolerance = 1E-15d;
 
         [Test]
         public void RHat() {

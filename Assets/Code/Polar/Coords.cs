@@ -20,6 +20,29 @@ namespace Polar {
     /// <summary>The origin as polar coordinates (with theta = 0).</summary>
     public static readonly coords zero;
 
+    public static readonly double2 xHat = new double2(1d, 0d);
+
+    /// <summary>
+    /// Construct a new set of coordinates from a world-space vector.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public coords(double2 v) {
+      this.r = math.length(v);
+      this.theta = math.acos(math.dot(math.normalizesafe(v), xHat));
+    }
+
+    /// <summary>
+    /// Construct a new set of coordinates by applying a polar-space vector to
+    /// another set of coordinates.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public coords(double2 polar, coords prev) {
+      // TODO optimise me!
+      var next = new coords(prev.ToWorldVector(polar));
+      this.r = next.r;
+      this.theta = next.theta;
+    }
+
     /// <summary>Construct a new set of coordinates.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public coords(double r, double theta) {
