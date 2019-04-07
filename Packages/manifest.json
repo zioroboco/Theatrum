@@ -16,7 +16,7 @@
     }
   ],
   "dependencies": {
-    "com.unity.burst": "1.0.0-preview.5",
+    "com.unity.burst": "1.0.0-preview.6",
     "com.unity.entities": "0.0.12-preview.29",
     "com.unity.jobs": "0.0.7-preview.9",
     "com.unity.package-manager-ui": "2.1.2",
