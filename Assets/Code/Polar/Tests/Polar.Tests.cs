@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class PolarTests {
+public class Test {
 
     private static double tolerance = 1E-15d;
 
