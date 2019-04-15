@@ -92,6 +92,15 @@ namespace Coordinates {
             Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
         }
 
+        [Test]
+        public void From_WorldVector_SouthNegative_WithAngle() {
+            var theta = new angle(-math.PI / 2d);
+            var expected = new coordinates(2d, theta);
+            var actual = new coordinates(new double2(0d, -2d));
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
+        }
+
     }
 
     public class Utils {

@@ -29,6 +29,12 @@ namespace Space {
       this.theta = new angle(theta);
     }
 
+    /// <summary>Construct a new set of coordinates.</summary>
+    public coordinates(double r, angle theta) {
+      this.r = r;
+      this.theta = theta;
+    }
+
     /// <summary>Test equality against another set of coordinates.</summary>
     public bool Equals(coordinates rhs) {
       return this.r == rhs.r && this.theta == rhs.theta;
