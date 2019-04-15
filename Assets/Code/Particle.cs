@@ -19,21 +19,21 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
     [SerializeField]
     private Vector2 velocity = new Vector2(0f, 0f);
 
-    private Entity entity;
-    private EntityManager manager;
+    private Entity _entity;
+    private EntityManager _manager;
 
     public void Convert(
         Entity entity,
         EntityManager manager,
         GameObjectConversionSystem conversionSystem
     ) {
-        this.entity = entity;
-        this.manager = World.Active.GetOrCreateManager<EntityManager>();
+        this._entity = entity;
+        this._manager = World.Active.GetOrCreateManager<EntityManager>();
 
-        var transform = GetComponent<Transform>();
-        var position = new Vector2(transform.position.x, transform.position.y);
+        var position3 = GetComponent<Transform>().position;
+        var position2 = new Vector2(position3.x, position3.y);
 
-        var polarPosition = new coordinates(new double2(position));
+        var polarPosition = new coordinates(new double2(position2));
         var polarVelocity = polarPosition.PolarTransform(new double2(velocity));
 
         var vectors = new Newtonian.Vectors {
@@ -52,20 +52,20 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
     }
 
     public void Update() {
-        var r = manager.GetComponentData<Translation>(this.entity).Value;
+        var r = _manager.GetComponentData<Translation>(this._entity).Value;
         transform.position = new Vector3(r.x, r.y, 0f);
     }
 
-    static void logInitialState<T>(string name, T data) {
-        FieldInfo[] fieldsInfo = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
-        string[] fieldLines = new String[fieldsInfo.Length];
-        int i = 0;
-        foreach (FieldInfo field in fieldsInfo) {
-            fieldLines[i] = string.Format("{0} = {1}", field.Name, field.GetValue(data));
+    private static void logInitialState<T>(string name, T data) {
+        var fieldsInfo = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        var fieldLines = new String[fieldsInfo.Length];
+        var i = 0;
+        foreach (var field in fieldsInfo) {
+            fieldLines[i] = $"{field.Name} = {field.GetValue(data)}";
             i++;
         }
-        Debug.Log(string.Format(
-            "Initialising {0} with {1}: {2}", name, typeof(T), string.Join("; ", fieldLines)
-        ));
+        Debug.Log(
+            $"Initialising {name} with {typeof(T)}: {string.Join("; ", fieldLines)}"
+        );
     }
 }

@@ -2,11 +2,9 @@
 
 public class Clock : MonoBehaviour {
 
-    [HideInInspector]
     public double DeltaTime { get; private set; }
 
-    [HideInInspector]
-    public double Time { get; private set; }
+    public double Time { get; set; }
 
     public static Clock Instance { get; private set; }
 
@@ -19,7 +17,7 @@ public class Clock : MonoBehaviour {
     }
 
     void Update() {
-        DeltaTime = (double) UnityEngine.Time.deltaTime;
+        DeltaTime = UnityEngine.Time.deltaTime;
         Time += DeltaTime;
     }
 }
