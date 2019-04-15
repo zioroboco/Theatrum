@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Polar;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -32,9 +33,12 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         var transform = GetComponent<Transform>();
         var position = new Vector2(transform.position.x, transform.position.y);
 
+        var polarPosition = new coords(new double2(position));
+        var polarVelocity = polarPosition.PolarTransform(new double2(velocity));
+
         var vectors = new Newtonian.Vectors {
-            Position = new double2(position.x, position.y),
-            Velocity = new double2(velocity.x, velocity.y)
+            Position = polarPosition,
+            Velocity = polarVelocity
         };
 
         if (this.regime == Regime.Newtonian) {

@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using Polar;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -11,32 +12,30 @@ namespace Newtonian {
     public class Newton : JobComponentSystem {
 
         [BurstCompile]
-        struct Job : IJobProcessComponentData<Translation, Vectors> {
+        private struct Job : IJobProcessComponentData<Translation, Vectors> {
             public double dt;
             public double mu;
             public void Execute(
                 ref Translation translation, ref Vectors state
             ) {
-                state.Velocity += accelerationDueToGravity(state.Position, mu, dt);
-                state.Position += state.Velocity * dt;
-                translation.Value = toFloat3(state.Position);
+                var acceleration = mu / math.pow(state.Position.r, 2);
+
+                var nextVelocity = state.Velocity + state.Position.PolarTransform(acceleration * dt);
+                var nextPosition = state.Position.Update(nextVelocity * dt);
+
+                state.Position = nextPosition;
+                state.Velocity = nextVelocity;
+
+                translation.Value = toFloat3(state.Position.ToWorldVector());
             }
         }
 
-        static double2 fromFloat3(float3 v) {
-            return new double2(v.x, v.y);
-        }
-
-        static float3 toFloat3(double2 v) {
+        private static float3 toFloat3(double2 v) {
             return new float3((float) v.x, (float) v.y, 0f);
         }
 
-        static double2 accelerationDueToGravity(double2 r, double mu, double dt) {
-            return (mu / math.dot(r, r)) * math.normalize(-r) * dt;
-        }
-
         protected override JobHandle OnUpdate(JobHandle inputDependencies) {
-            var job = new Job() {
+            var job = new Job {
                 dt = Clock.Instance.DeltaTime,
                 mu = 1d
             };
