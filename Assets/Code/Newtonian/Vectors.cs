@@ -7,7 +7,7 @@ namespace Newtonian {
 
     [Serializable]
     public struct Vectors : IComponentData {
-        public coords Position;
+        public coordinates Position;
         public double2 Velocity;
     }
 

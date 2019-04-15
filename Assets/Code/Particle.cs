@@ -33,7 +33,7 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         var transform = GetComponent<Transform>();
         var position = new Vector2(transform.position.x, transform.position.y);
 
-        var polarPosition = new coords(new double2(position));
+        var polarPosition = new coordinates(new double2(position));
         var polarVelocity = polarPosition.PolarTransform(new double2(velocity));
 
         var vectors = new Newtonian.Vectors {

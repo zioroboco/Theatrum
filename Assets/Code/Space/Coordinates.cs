@@ -5,9 +5,9 @@ using Unity.Mathematics;
 namespace Space {
 
   /// <summary>A set of polar coordinates.</summary>
-  [DebuggerTypeProxy(typeof(coords.DebuggerProxy))]
+  [DebuggerTypeProxy(typeof(coordinates.DebuggerProxy))]
   [System.Serializable]
-  public struct coords : System.IEquatable<coords>, IFormattable {
+  public struct coordinates : System.IEquatable<coordinates>, IFormattable {
 
     /// <summary>Scalar distance from the origin.</summary>
     public double r;
@@ -19,12 +19,12 @@ namespace Space {
 
     private static readonly double3 zHat = new double3(0d, 0d, 1d);
 
-    public static readonly coords zero = new coords{ r = 0d, theta = 0d };
+    public static readonly coordinates zero = new coordinates{ r = 0d, theta = 0d };
 
     /// <summary>
     /// Construct a new set of coordinates from a world-space vector.
     /// </summary>
-    public coords(double2 v) {
+    public coordinates(double2 v) {
       this.r = math.length(v);
       this.theta = angle(xHat, math.normalizesafe(v));
     }
@@ -52,27 +52,26 @@ namespace Space {
     /// Construct a new set of coordinates by applying a polar-space vector to
     /// another set of coordinates.
     /// </summary>
-    public coords(double2 polar, coords prev) {
-      // TODO optimise me!
-      var next = new coords(prev.ToWorldVector(polar));
+    public coordinates(double2 polar, coordinates prev) {
+      var next = new coordinates(prev.ToWorldVector(polar));
       this.r = next.r;
       this.theta = normalizeAngle(next.theta);
     }
 
     /// <summary>Construct a new set of coordinates.</summary>
-    public coords(double r, double theta) {
+    public coordinates(double r, double theta) {
       this.r = r;
       this.theta = normalizeAngle(theta);
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
-    public bool Equals(coords rhs) {
+    public bool Equals(coordinates rhs) {
       return this.r == rhs.r && this.theta == rhs.theta;
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
     public override bool Equals(object o) {
-      return o != null && Equals((coords) o);
+      return o != null && Equals((coordinates) o);
     }
 
     /// <summary>A hash summary of the coordinates.</summary>
@@ -81,24 +80,24 @@ namespace Space {
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
-    public static bool operator ==(coords lhs, coords rhs) {
+    public static bool operator ==(coordinates lhs, coordinates rhs) {
       return lhs.r.Equals(rhs.r) && lhs.theta.Equals(rhs.theta);
     }
 
     /// <summary>Test inequality against another set of coordinates.</summary>
-    public static bool operator !=(coords lhs, coords rhs) {
+    public static bool operator !=(coordinates lhs, coordinates rhs) {
       return !lhs.r.Equals(rhs.r) || !lhs.theta.Equals(rhs.theta);
     }
 
     /// <summary>A string representation of the coordinates.</summary>
     public override string ToString() {
-      return string.Format("coords(r: {0}, theta: {1})", r, theta);
+      return string.Format("coordinates(r: {0}, theta: {1})", r, theta);
     }
 
     /// <summary>A localised string representation of the coordinates.</summary>
     public string ToString(string format, IFormatProvider formatProvider) {
       return string.Format(
-        "coords(r: {0}, theta: {1})",
+        "coordinates(r: {0}, theta: {1})",
         this.r.ToString(format, formatProvider),
         this.theta.ToString(format, formatProvider)
       );
@@ -107,7 +106,7 @@ namespace Space {
     internal sealed class DebuggerProxy {
       public float r;
       public float theta;
-      public DebuggerProxy(coords c) {
+      public DebuggerProxy(coordinates c) {
         r = (float) c.r;
         theta = (float) c.theta;
       }
@@ -173,8 +172,8 @@ namespace Space {
       return math.mul(this.PolarTransform(), world);
     }
 
-    public coords Update(double2 polar) {
-      return new coords(this.ToWorldVector(polar));
+    public coordinates Update(double2 polar) {
+      return new coordinates(this.ToWorldVector(polar));
     }
 
   }
