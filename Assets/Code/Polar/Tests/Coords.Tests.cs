@@ -13,24 +13,6 @@ public class Coords {
     public class Type {
 
         [Test]
-        public void Constructor_WorldVector() {
-            var expected = new coords(2d, math.PI / 2d);
-            var actual = new coords(new double2(0d, 2d));
-            Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
-        }
-
-        [Test]
-        public void Constructor_PolarVector() {
-            var v = new double2(1d, -1d);
-            var prev = new coords(1d, math.PI / 2d);
-            var expected = new coords(1d, math.PI);
-            var actual = new coords(v, prev);
-            Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
-        }
-
-        [Test]
         public void Zero() {
             Assert.AreEqual(new coords(0d, 0d), coords.zero);
         }
@@ -88,6 +70,135 @@ public class Coords {
                 String.Format("coords(r: {0}, theta: {1})", a_r, a_theta),
                 a.ToString()
             );
+        }
+
+    }
+
+    public class Constructor {
+
+        [Test]
+        public void From_WorldVector_North() {
+            var expected = new coords(2d, math.PI / 2d);
+            var actual = new coords(new double2(0d, 2d));
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
+
+        [Test]
+        public void From_WorldVector_South() {
+            var expected = new coords(2d, 3d * math.PI / 2d);
+            var actual = new coords(new double2(0d, -2d));
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
+
+        [Test]
+        public void From_WorldVector_SouthNegative() {
+            var expected = new coords(2d, -math.PI / 2d);
+            var actual = new coords(new double2(0d, -2d));
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
+
+        [Test]
+        public void From_PolarVector() {
+            var v = new double2(1d, -1d);
+            var prev = new coords(1d, math.PI / 2d);
+            var expected = new coords(1d, math.PI);
+            var actual = new coords(v, prev);
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+        }
+
+    }
+
+    public class StaticUtils {
+
+        static double2 x = new double2(2d, 0d);
+        static double2 y = new double2(0d, 2d);
+
+        [Test]
+        public void Angle_Zero() {
+            double actual = coords.angle(x, x);
+            double expected = coords.normalizeAngle(0d);
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void Angle_PiOnTwo() {
+            double actual = coords.angle(x, y);
+            double expected = coords.normalizeAngle(math.PI / 2d);
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void Angle_Pi() {
+            double actual = coords.angle(x, -x);
+            double expected = math.PI;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void Angle_NegPiOnTwo() {
+            double actual = coords.angle(x, -y);
+            double expected = -math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_Zero() {
+            double actual = coords.normalizeAngle(0d);
+            double expected = 0d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_PiOnTwo() {
+            double actual = coords.normalizeAngle(math.PI / 2d);
+            double expected = math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_Pi() {
+            double actual = coords.normalizeAngle(math.PI);
+            double expected = -math.PI;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_ThreePiOnTwo() {
+            double actual = coords.normalizeAngle(3d * math.PI / 2d);
+            double expected = -math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_Negative_ThreePiOnTwo() {
+            double actual = coords.normalizeAngle(-3d * math.PI / 2d);
+            double expected = math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_FivePiOnTwo() {
+            double actual = coords.normalizeAngle(5d * math.PI / 2d);
+            double expected = math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_Negative_FivePiOnTwo() {
+            double actual = coords.normalizeAngle(-5d * math.PI / 2d);
+            double expected = -math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
+        }
+
+        [Test]
+        public void NormalizeAngle_Negative_SevenPiOnTwo() {
+            double actual = coords.normalizeAngle(7d * math.PI / 2d);
+            double expected = -math.PI / 2d;
+            Assert.AreEqual(expected, actual, tolerance);
         }
 
     }
@@ -172,6 +283,34 @@ public class Coords {
             var actual = c.ToWorldVector(v_polar);
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Update() {
+            var pos = new coords(2d, -math.PI / 2d);
+            var v_polar = new double2(-2d, -2d);
+            var expected = new coords(2d, math.PI);
+            var actual = pos.Update(v_polar);
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(
+                coords.normalizeAngle(expected.theta),
+                coords.normalizeAngle(actual.theta),
+                tolerance
+            );
+        }
+
+        [Test]
+        public void RelativeToWorldVector() {
+            var pos = new coords(2d, -math.PI / 2d);
+            var v_polar = new double2(-2d, -2d);
+            var expected = new coords(2d, math.PI);
+            var actual = pos.Update(v_polar);
+            Assert.AreEqual(expected.r, actual.r, tolerance);
+            Assert.AreEqual(
+                coords.normalizeAngle(expected.theta),
+                coords.normalizeAngle(actual.theta),
+                tolerance
+            );
         }
 
     }

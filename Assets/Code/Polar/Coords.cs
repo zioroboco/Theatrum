@@ -22,13 +22,36 @@ namespace Polar {
 
     public static readonly double2 xHat = new double2(1d, 0d);
 
+    private static readonly double3 zHat = new double3(0d, 0d, 1d);
+
     /// <summary>
     /// Construct a new set of coordinates from a world-space vector.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public coords(double2 v) {
       this.r = math.length(v);
-      this.theta = math.acos(math.dot(math.normalizesafe(v), xHat));
+      this.theta = angle(xHat, math.normalizesafe(v));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double angle(double2 a, double2 b) {
+      var unsigned = math.acos(math.dot(math.normalizesafe(a), math.normalizesafe(b)));
+      var cross = math.cross(new double3(a.x, a.y, 0d), new double3(b.x, b.y, 0d));
+      var sign = math.dot(zHat, cross) < 0;
+      return (sign ? -1d : 1d)  * unsigned;
+    }
+
+    private static double wrapMax(double theta, double max) {
+      return math.fmod(max + math.fmod(theta, max), max);
+    }
+
+    private static double wrapMinMax(double theta, double min, double max) {
+      return min + wrapMax(theta - min, max - min);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double normalizeAngle(double theta) {
+      return wrapMinMax(theta, -math.PI, math.PI);
     }
 
     /// <summary>
@@ -40,35 +63,14 @@ namespace Polar {
       // TODO optimise me!
       var next = new coords(prev.ToWorldVector(polar));
       this.r = next.r;
-      this.theta = next.theta;
+      this.theta = normalizeAngle(next.theta);
     }
 
     /// <summary>Construct a new set of coordinates.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public coords(double r, double theta) {
       this.r = r;
-      this.theta = theta;
-    }
-
-    /// <summary>Construct a new set of coordinates.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public coords(float r, double theta) {
-      this.r = (double) r;
-      this.theta = theta;
-    }
-
-    /// <summary>Construct a new set of coordinates.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public coords(double r, float theta) {
-      this.r = r;
-      this.theta = (double) theta;
-    }
-
-    /// <summary>Construct a new set of coordinates.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public coords(float r, float theta) {
-      this.r = (double) r;
-      this.theta = (double) theta;
+      this.theta = normalizeAngle(theta);
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
@@ -193,6 +195,17 @@ namespace Polar {
     public double2 PolarTransform(double2 world) {
       return math.mul(this.PolarTransform(), world);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public coords Update(double2 polar) {
+      return new coords(this.ToWorldVector(polar));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public double2 RelativeToWorldVector(double2 world) {
+      return double2.zero;
+    }
+
 
   }
 }
