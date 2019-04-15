@@ -1,14 +1,13 @@
 ﻿using System;
+using JetBrains.Annotations;
+using Space;
 using NUnit.Framework;
-using Polar;
-using Unity;
 using Unity.Mathematics;
-using UnityEngine;
-using UnityEngine.TestTools;
 
-public class Coords {
+[UsedImplicitly]
+internal class Coordinates {
 
-    private static double tolerance = 1E-15d;
+    private const double tolerance = 1E-15d;
 
     public class Type {
 
@@ -21,7 +20,7 @@ public class Coords {
         public void Equality() {
             var a = new coords(2d, 3d);
             var b = new coords(2d, 3d);
-            Assert.AreEqual(a, a);
+            Assert.AreEqual(a, b);
         }
 
         [Test]

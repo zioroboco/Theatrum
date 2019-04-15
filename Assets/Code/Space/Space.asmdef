@@ -1,15 +1,10 @@
 {
-    "name": "Polar.Tests",
+    "name": "Space",
     "references": [
-        "Unity.Mathematics",
-        "Polar"
+        "Unity.Mathematics"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
