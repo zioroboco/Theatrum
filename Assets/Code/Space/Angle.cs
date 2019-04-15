@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace Space {
 
@@ -78,16 +79,28 @@ namespace Space {
       }
     }
 
-    public double2 UnitVector() {
-      return UnitVector(this);
+    public double2 Radial() {
+      return Radial(this);
     }
 
-    public static double2 UnitVector(angle theta) {
-      return UnitVector(theta.radians);
+    public static double2 Radial(angle theta) {
+      return Radial(theta.radians);
     }
 
-    public static double2 UnitVector(double radians) {
+    public static double2 Radial(double radians) {
       return new double2(math.cos(radians), math.sin(radians));
+    }
+
+    public double2 Perpendicular() {
+      return Perpendicular(this.Radial());
+    }
+
+    private static readonly double3 z3 = new double3(0d, 0d, 1d);
+
+    public static double2 Perpendicular(double2 radial) {
+      var radial3 = new double3(radial.x, radial.y, 0d);
+      var perpendicular3 = math.cross(z3, radial3);
+      return new double2(perpendicular3.x, perpendicular3.y);
     }
 
   }

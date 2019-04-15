@@ -196,33 +196,65 @@ namespace Angle {
         private static readonly double2 yHat = new double2(0d, 1d);
 
         [Test]
-        public void Hat_North() {
-            var actual = new angle(math.PI / 2d).UnitVector();
+        public void Radial_North() {
+            var actual = new angle(math.PI / 2d).Radial();
             var expected = yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
         }
 
         [Test]
-        public void Hat_South() {
-            var actual = new angle(-math.PI / 2d).UnitVector();
+        public void Radial_South() {
+            var actual = new angle(-math.PI / 2d).Radial();
             var expected = -yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
         }
 
         [Test]
-        public void Hat_East() {
-            var actual = new angle(0d).UnitVector();
+        public void Radial_East() {
+            var actual = new angle(0d).Radial();
             var expected = xHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
         }
 
         [Test]
-        public void Hat_West() {
-            var actual = new angle(math.PI).UnitVector();
+        public void Radial_West() {
+            var actual = new angle(math.PI).Radial();
             var expected = -xHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Perpendicular_North() {
+            var actual = new angle(math.PI / 2d).Perpendicular();
+            var expected = -xHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Perpendicular_South() {
+            var actual = new angle(-math.PI / 2d).Perpendicular();
+            var expected = xHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Perpendicular_East() {
+            var actual = new angle(0d).Perpendicular();
+            var expected = yHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Perpendicular_West() {
+            var actual = new angle(math.PI).Perpendicular();
+            var expected = -yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
         }
