@@ -10,58 +10,23 @@ namespace Space {
   public struct coordinates : System.IEquatable<coordinates>, IFormattable {
 
     /// <summary>Scalar distance from the origin.</summary>
-    public double r;
+    public readonly double r;
 
     /// <summary>Angle in radians from the direction of positive x.</summary>
-    public double theta;
-
-    public static readonly double2 xHat = new double2(1d, 0d);
-
-    private static readonly double3 zHat = new double3(0d, 0d, 1d);
-
-    public static readonly coordinates zero = new coordinates{ r = 0d, theta = 0d };
+    public readonly angle theta;
 
     /// <summary>
     /// Construct a new set of coordinates from a world-space vector.
     /// </summary>
     public coordinates(double2 v) {
       this.r = math.length(v);
-      this.theta = angle(xHat, math.normalizesafe(v));
-    }
-
-    public static double angle(double2 a, double2 b) {
-      var unsigned = math.acos(math.dot(math.normalizesafe(a), math.normalizesafe(b)));
-      var cross = math.cross(new double3(a.x, a.y, 0d), new double3(b.x, b.y, 0d));
-      var sign = math.dot(zHat, cross) < 0;
-      return (sign ? -1d : 1d)  * unsigned;
-    }
-
-    private static double wrapMax(double theta, double max) {
-      return math.fmod(max + math.fmod(theta, max), max);
-    }
-
-    private static double wrapMinMax(double theta, double min, double max) {
-      return min + wrapMax(theta - min, max - min);
-    }
-
-    public static double normalizeAngle(double theta) {
-      return wrapMinMax(theta, -math.PI, math.PI);
-    }
-
-    /// <summary>
-    /// Construct a new set of coordinates by applying a polar-space vector to
-    /// another set of coordinates.
-    /// </summary>
-    public coordinates(double2 polar, coordinates prev) {
-      var next = new coordinates(prev.ToWorldVector(polar));
-      this.r = next.r;
-      this.theta = normalizeAngle(next.theta);
+      this.theta = new angle(v);
     }
 
     /// <summary>Construct a new set of coordinates.</summary>
     public coordinates(double r, double theta) {
       this.r = r;
-      this.theta = normalizeAngle(theta);
+      this.theta = new angle(theta);
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
@@ -76,7 +41,7 @@ namespace Space {
 
     /// <summary>A hash summary of the coordinates.</summary>
     public override int GetHashCode() {
-      return (int) math.hash(math.double2(this.r, this.theta));
+      return (int) math.hash(math.double2(this.r, this.theta.radians));
     }
 
     /// <summary>Test equality against another set of coordinates.</summary>
@@ -108,13 +73,16 @@ namespace Space {
       public float theta;
       public DebuggerProxy(coordinates c) {
         r = (float) c.r;
-        theta = (float) c.theta;
+        theta = (float) c.theta.radians;
       }
     }
 
     /// <summary>Unit vector in the direction of increasing `r`.</summary>
     public double2 RHat() {
-      return new double2(math.cos(this.theta), math.sin(this.theta));
+      return new double2(
+        math.cos(this.theta.radians),
+        math.sin(this.theta.radians)
+      );
     }
 
     /// <summary>Unit vector in the direction of increasing `theta`.</summary>

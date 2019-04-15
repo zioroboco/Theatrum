@@ -1,20 +1,10 @@
-﻿using System;
-using JetBrains.Annotations;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Space;
 using Unity.Mathematics;
 
-[UsedImplicitly]
-internal class Coordinates {
-
-    private const double tolerance = 1E-15d;
+namespace Coordinates {
 
     public class Type {
-
-        [Test]
-        public void Zero() {
-            Assert.AreEqual(new coordinates(0d, 0d), coordinates.zero);
-        }
 
         [Test]
         public void Equality() {
@@ -54,19 +44,20 @@ internal class Coordinates {
 
         [Test]
         public void Hashing() {
-            var a = new coordinates(2d, 3d);
+            var a_1 = new coordinates(2d, 3d);
+            var a_2 = new coordinates(2d, 3d);
             var b = new coordinates(3d, 2d);
-            Assert.True(a.GetHashCode() == a.GetHashCode());
-            Assert.True(a.GetHashCode() != b.GetHashCode());
+            Assert.True(a_1.GetHashCode() == a_2.GetHashCode());
+            Assert.True(a_1.GetHashCode() != b.GetHashCode());
         }
 
         [Test]
         public void Formatting() {
             var a_r = 2d;
-            var a_theta = 3d;
-            var a = new coordinates(a_r, a_theta);
+            var a_theta = new angle(3d);
+            var a = new coordinates(a_r, a_theta.radians);
             Assert.AreEqual(
-                String.Format("coordinates(r: {0}, theta: {1})", a_r, a_theta),
+                $"coordinates(r: {a_r}, theta: {a_theta})",
                 a.ToString()
             );
         }
@@ -75,12 +66,14 @@ internal class Coordinates {
 
     public class Constructor {
 
+        private const double tolerance = 1E-15d;
+
         [Test]
         public void From_WorldVector_North() {
             var expected = new coordinates(2d, math.PI / 2d);
             var actual = new coordinates(new double2(0d, 2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+            Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
         }
 
         [Test]
@@ -88,7 +81,7 @@ internal class Coordinates {
             var expected = new coordinates(2d, 3d * math.PI / 2d);
             var actual = new coordinates(new double2(0d, -2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
+            Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
         }
 
         [Test]
@@ -96,113 +89,14 @@ internal class Coordinates {
             var expected = new coordinates(2d, -math.PI / 2d);
             var actual = new coordinates(new double2(0d, -2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
-        }
-
-        [Test]
-        public void From_PolarVector() {
-            var v = new double2(1d, -1d);
-            var prev = new coordinates(1d, math.PI / 2d);
-            var expected = new coordinates(1d, math.PI);
-            var actual = new coordinates(v, prev);
-            Assert.AreEqual(expected.r, actual.r, tolerance);
-            Assert.AreEqual(expected.theta, actual.theta, tolerance);
-        }
-
-    }
-
-    public class StaticUtils {
-
-        static double2 x = new double2(2d, 0d);
-        static double2 y = new double2(0d, 2d);
-
-        [Test]
-        public void Angle_Zero() {
-            double actual = coordinates.angle(x, x);
-            double expected = coordinates.normalizeAngle(0d);
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void Angle_PiOnTwo() {
-            double actual = coordinates.angle(x, y);
-            double expected = coordinates.normalizeAngle(math.PI / 2d);
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void Angle_Pi() {
-            double actual = coordinates.angle(x, -x);
-            double expected = math.PI;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void Angle_NegPiOnTwo() {
-            double actual = coordinates.angle(x, -y);
-            double expected = -math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_Zero() {
-            double actual = coordinates.normalizeAngle(0d);
-            double expected = 0d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_PiOnTwo() {
-            double actual = coordinates.normalizeAngle(math.PI / 2d);
-            double expected = math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_Pi() {
-            double actual = coordinates.normalizeAngle(math.PI);
-            double expected = -math.PI;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_ThreePiOnTwo() {
-            double actual = coordinates.normalizeAngle(3d * math.PI / 2d);
-            double expected = -math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_Negative_ThreePiOnTwo() {
-            double actual = coordinates.normalizeAngle(-3d * math.PI / 2d);
-            double expected = math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_FivePiOnTwo() {
-            double actual = coordinates.normalizeAngle(5d * math.PI / 2d);
-            double expected = math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_Negative_FivePiOnTwo() {
-            double actual = coordinates.normalizeAngle(-5d * math.PI / 2d);
-            double expected = -math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
-        }
-
-        [Test]
-        public void NormalizeAngle_Negative_SevenPiOnTwo() {
-            double actual = coordinates.normalizeAngle(7d * math.PI / 2d);
-            double expected = -math.PI / 2d;
-            Assert.AreEqual(expected, actual, tolerance);
+            Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
         }
 
     }
 
     public class Utils {
+
+        private const double tolerance = 1E-15d;
 
         [Test]
         public void RHat() {
@@ -292,8 +186,8 @@ internal class Coordinates {
             var actual = pos.Update(v_polar);
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(
-                coordinates.normalizeAngle(expected.theta),
-                coordinates.normalizeAngle(actual.theta),
+                angle.wrap(expected.theta.radians),
+                angle.wrap(actual.theta.radians),
                 tolerance
             );
         }
@@ -306,8 +200,8 @@ internal class Coordinates {
             var actual = pos.Update(v_polar);
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(
-                coordinates.normalizeAngle(expected.theta),
-                coordinates.normalizeAngle(actual.theta),
+                angle.wrap(expected.theta.radians),
+                angle.wrap(actual.theta.radians),
                 tolerance
             );
         }
