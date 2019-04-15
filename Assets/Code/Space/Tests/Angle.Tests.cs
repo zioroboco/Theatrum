@@ -188,4 +188,43 @@ namespace Angle {
             Assert.AreEqual(expected, actual, tolerance);
         }
     }
+
+    public class UnitVector {
+
+        private const double tolerance = 1E-15d;
+        private static readonly double2 xHat = new double2(1d, 0d);
+        private static readonly double2 yHat = new double2(0d, 1d);
+
+        [Test]
+        public void Hat_North() {
+            var actual = new angle(math.PI / 2d).UnitVector();
+            var expected = yHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Hat_South() {
+            var actual = new angle(-math.PI / 2d).UnitVector();
+            var expected = -yHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Hat_East() {
+            var actual = new angle(0d).UnitVector();
+            var expected = xHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+
+        [Test]
+        public void Hat_West() {
+            var actual = new angle(math.PI).UnitVector();
+            var expected = -xHat;
+            Assert.AreEqual(expected.x, actual.x, tolerance);
+            Assert.AreEqual(expected.y, actual.y, tolerance);
+        }
+    }
 }

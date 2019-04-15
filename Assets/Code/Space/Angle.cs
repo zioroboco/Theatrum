@@ -9,7 +9,6 @@ namespace Space {
   public struct angle : System.IEquatable<angle>, IFormattable {
 
     public readonly double radians;
-
     public angle(double radians) {
       this.radians = wrap(radians);
     }
@@ -77,6 +76,18 @@ namespace Space {
       public DebuggerProxy(angle a) {
         radians = (float) a.radians;
       }
+    }
+
+    public double2 UnitVector() {
+      return UnitVector(this);
+    }
+
+    public static double2 UnitVector(angle theta) {
+      return UnitVector(theta.radians);
+    }
+
+    public static double2 UnitVector(double radians) {
+      return new double2(math.cos(radians), math.sin(radians));
     }
 
   }
