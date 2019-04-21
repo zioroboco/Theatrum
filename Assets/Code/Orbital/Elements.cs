@@ -1,13 +1,12 @@
 using System;
 using System.Diagnostics;
 using Unity.Mathematics;
-using UnityEngine.UI;
 
 namespace Orbital {
 
   [DebuggerTypeProxy(typeof(elements.DebuggerProxy))]
   [System.Serializable]
-  public struct elements : System.IEquatable<elements>, IFormattable {
+  public struct elements : System.IEquatable<elements> {
 
     public enum Direction {
       clockwise = -1,
@@ -66,17 +65,6 @@ namespace Orbital {
         this.omega,
         this.theta,
         this.direction
-      );
-    }
-
-    public string ToString(string format, IFormatProvider formatProvider) {
-      return string.Format(
-        "elements(a: {0}, e: {1}, omega: {2}, theta: {3}, direction: {4})",
-        this.a.ToString(format, formatProvider),
-        this.e.ToString(format, formatProvider),
-        this.omega.ToString(format, formatProvider),
-        this.theta.ToString(format, formatProvider),
-        this.direction.ToString(format, formatProvider)
       );
     }
 
