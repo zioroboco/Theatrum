@@ -1,4 +1,4 @@
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -15,13 +15,14 @@ namespace Newtonian {
             public void Execute(
                 ref Translation translation, ref Vectors state
             ) {
-                var acceleration = mu / math.pow(state.Position.r, 2);
+                var acceleration = new double2(0d, mu / math.pow(state.Position.r, 2d));
+                var velocity = state.Velocity - acceleration * dt;
 
-                var nextVelocity = state.Velocity + state.Position.PolarTransform(acceleration * dt);
-                var nextPosition = state.Position.Update(nextVelocity * dt);
+                var lastPosition = state.Position;
+                var nextPosition = lastPosition.Update(velocity * dt);
 
                 state.Position = nextPosition;
-                state.Velocity = nextVelocity;
+                state.Velocity = nextPosition.PolarTransform(lastPosition.WorldTransform(velocity));
 
                 translation.Value = toFloat3(state.Position.ToWorldVector());
             }
