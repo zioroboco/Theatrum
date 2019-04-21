@@ -10,7 +10,8 @@ using UnityEngine;
 public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
 
     private enum Regime {
-        Newtonian
+        Newtonian,
+        Keplerian
     }
 
     [SerializeField]
@@ -42,10 +43,12 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         };
 
         if (this.regime == Regime.Newtonian) {
-
-            logInitialState(gameObject.name, vectors);
             manager.AddComponentData(entity, vectors);
-
+            logInitialState(gameObject.name, vectors);
+        } else if (this.regime == Regime.Keplerian) {
+            var elements = new Keplerian.Elements(vectors);
+            manager.AddComponentData(entity, elements);
+            logInitialState(gameObject.name, elements);
         } else {
             throw new NotImplementedException();
         }

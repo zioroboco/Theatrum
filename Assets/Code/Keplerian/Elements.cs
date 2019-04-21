@@ -1,12 +1,14 @@
 using System;
 using System.Diagnostics;
+using Orbital;
+using Unity.Entities;
 using Unity.Mathematics;
 
-namespace Orbital {
+namespace Keplerian {
 
-  [DebuggerTypeProxy(typeof(elements.DebuggerProxy))]
-  [System.Serializable]
-  public struct elements : System.IEquatable<elements> {
+  [DebuggerTypeProxy(typeof(Elements.DebuggerProxy))]
+  [Serializable]
+  public struct Elements : IComponentData, IEquatable<Elements> {
 
     public enum Direction {
       clockwise = -1,
@@ -19,7 +21,7 @@ namespace Orbital {
     public readonly angle theta;
     public readonly Direction direction;
 
-    public elements(double a, double e, angle omega, angle theta, Direction direction) {
+    public Elements(double a, double e, angle omega, angle theta, Direction direction) {
       this.a = a;
       this.e = e;
       this.omega = omega;
@@ -27,7 +29,11 @@ namespace Orbital {
       this.direction = direction;
     }
 
-    public bool Equals(elements rhs) {
+    public Elements(Newtonian.Vectors state) {
+      throw new NotImplementedException();
+    }
+
+    public bool Equals(Elements rhs) {
       return this.a == rhs.a &&
         this.e == rhs.e &&
         this.omega == rhs.omega &&
@@ -36,7 +42,7 @@ namespace Orbital {
     }
 
     public override bool Equals(object o) {
-      return o != null && Equals((elements) o);
+      return o != null && Equals((Elements) o);
     }
 
     public static double sign(Direction direction) {
@@ -49,11 +55,11 @@ namespace Orbital {
       );
     }
 
-    public static bool operator ==(elements lhs, elements rhs) {
+    public static bool operator ==(Elements lhs, Elements rhs) {
       return lhs.Equals(rhs);
     }
 
-    public static bool operator !=(elements lhs, elements rhs) {
+    public static bool operator !=(Elements lhs, Elements rhs) {
       return !lhs.Equals(rhs);
     }
 
@@ -74,7 +80,7 @@ namespace Orbital {
       public float omega;
       public float theta;
       public Direction direction;
-      public DebuggerProxy(elements el) {
+      public DebuggerProxy(Elements el) {
         this.a = (float) el.a;
         this.e = (float) el.e;
         this.omega = (float) el.omega.radians;
