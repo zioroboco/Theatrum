@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Space {
+namespace Orbital {
 
   [DebuggerTypeProxy(typeof(angle.DebuggerProxy))]
   [System.Serializable]

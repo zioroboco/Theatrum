@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Unity.Mathematics;
 
-namespace Space {
+namespace Orbital {
 
   [DebuggerTypeProxy(typeof(state.DebuggerProxy))]
   [System.Serializable]

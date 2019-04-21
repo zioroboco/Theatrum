@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using Unity.Mathematics;
 
-namespace Space {
+namespace Orbital {
 
   /// <summary>A set of polar coordinates.</summary>
   [DebuggerTypeProxy(typeof(coordinates.DebuggerProxy))]

@@ -1,8 +1,8 @@
 {
-    "name": "Space.Tests",
+    "name": "Orbital.Tests",
     "references": [
         "Unity.Mathematics",
-        "Space"
+        "Orbital"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
