@@ -1,4 +1,4 @@
-﻿using Unity.Burst;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -9,7 +9,7 @@ namespace Newtonian {
     public class Newton : JobComponentSystem {
 
         [BurstCompile]
-        private struct Job : IJobProcessComponentData<Translation, Vectors> {
+        private struct Job : IJobForEach<Translation, Vectors> {
             public double dt;
             public double mu;
             public void Execute(

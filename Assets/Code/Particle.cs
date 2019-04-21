@@ -28,7 +28,7 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         GameObjectConversionSystem conversionSystem
     ) {
         this._entity = entity;
-        this._manager = World.Active.GetOrCreateManager<EntityManager>();
+        this._manager = manager;
 
         var position3 = GetComponent<Transform>().position;
         var position2 = new Vector2(position3.x, position3.y);
