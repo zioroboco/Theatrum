@@ -289,6 +289,11 @@ PrefabInstance:
       propertyPath: velocity.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
+        type: 3}
+      propertyPath: velocity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1801418e726a8429c9a0190e1c8edb5f, type: 3}
 --- !u!1001 &623736400
@@ -361,7 +366,12 @@ PrefabInstance:
     - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
         type: 3}
       propertyPath: velocity.y
-      value: 0
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
+        type: 3}
+      propertyPath: velocity
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1801418e726a8429c9a0190e1c8edb5f, type: 3}
@@ -706,6 +716,11 @@ PrefabInstance:
       propertyPath: velocity.x
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
+        type: 3}
+      propertyPath: velocity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1801418e726a8429c9a0190e1c8edb5f, type: 3}
 --- !u!1001 &1473176982
@@ -785,6 +800,11 @@ PrefabInstance:
       propertyPath: velocity.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
+        type: 3}
+      propertyPath: velocity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1801418e726a8429c9a0190e1c8edb5f, type: 3}
 --- !u!1001 &2038610872
@@ -862,6 +882,11 @@ PrefabInstance:
     - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
         type: 3}
       propertyPath: velocity.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102020082668801470, guid: 1801418e726a8429c9a0190e1c8edb5f,
+        type: 3}
+      propertyPath: velocity
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -17,7 +17,7 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
     private Regime regime = Regime.Newtonian;
 
     [SerializeField]
-    private Vector2 velocity = new Vector2(0f, 0f);
+    private float velocity;
 
     private Entity _entity;
     private EntityManager _manager;
@@ -34,7 +34,7 @@ public class Particle : MonoBehaviour, IConvertGameObjectToEntity {
         var position2 = new Vector2(position3.x, position3.y);
 
         var polarPosition = new coordinates(new double2(position2));
-        var polarVelocity = polarPosition.PolarTransform(new double2(velocity));
+        var polarVelocity = polarPosition.PolarTransform(polarPosition.ThetaHat() * velocity);
 
         var vectors = new Newtonian.Vectors {
             Position = polarPosition,
