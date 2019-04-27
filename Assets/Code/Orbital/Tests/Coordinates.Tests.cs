@@ -70,7 +70,7 @@ namespace Coordinates {
 
         [Test]
         public void From_WorldVector_North() {
-            var expected = new coordinates(2d, math.PI / 2d);
+            var expected = new coordinates(2d, math.PI_DBL / 2d);
             var actual = new coordinates(new double2(0d, 2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
@@ -78,7 +78,7 @@ namespace Coordinates {
 
         [Test]
         public void From_WorldVector_South() {
-            var expected = new coordinates(2d, 3d * math.PI / 2d);
+            var expected = new coordinates(2d, 3d * math.PI_DBL / 2d);
             var actual = new coordinates(new double2(0d, -2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
@@ -86,7 +86,7 @@ namespace Coordinates {
 
         [Test]
         public void From_WorldVector_SouthNegative() {
-            var expected = new coordinates(2d, -math.PI / 2d);
+            var expected = new coordinates(2d, -math.PI_DBL / 2d);
             var actual = new coordinates(new double2(0d, -2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(expected.theta.radians, actual.theta.radians, tolerance);
@@ -94,7 +94,7 @@ namespace Coordinates {
 
         [Test]
         public void From_WorldVector_SouthNegative_WithAngle() {
-            var theta = new angle(-math.PI / 2d);
+            var theta = new angle(-math.PI_DBL / 2d);
             var expected = new coordinates(2d, theta);
             var actual = new coordinates(new double2(0d, -2d));
             Assert.AreEqual(expected.r, actual.r, tolerance);
@@ -109,7 +109,7 @@ namespace Coordinates {
 
         [Test]
         public void RHat() {
-            var c = new coordinates(2d, math.PI / 2d);
+            var c = new coordinates(2d, math.PI_DBL / 2d);
             var expected = new double2(0d, 1d);
             var actual = c.RHat();
             Assert.AreEqual(expected.x, actual.x, tolerance);
@@ -118,7 +118,7 @@ namespace Coordinates {
 
         [Test]
         public void ThetaHat() {
-            var c = new coordinates(2d, math.PI / 2d);
+            var c = new coordinates(2d, math.PI_DBL / 2d);
             // Increasing theta is in the negative-x direction.
             var expected = new double2(-1d, 0d);
             var actual = c.ThetaHat();
@@ -128,7 +128,7 @@ namespace Coordinates {
 
         [Test]
         public void WorldTransform() {
-            var c = new coordinates(1d, math.PI / 2d);
+            var c = new coordinates(1d, math.PI_DBL / 2d);
             var v_polar = new double2(2d, 3d);
             var T_world = c.WorldTransform();
             var expected = new double2(-2d, 3d);
@@ -139,7 +139,7 @@ namespace Coordinates {
 
         [Test]
         public void WorldTransform_Vector() {
-            var c = new coordinates(1d, math.PI / 2d);
+            var c = new coordinates(1d, math.PI_DBL / 2d);
             var v_polar = new double2(2d, 3d);
             var expected = new double2(-2d, 3d);
             var actual = c.WorldTransform(v_polar);
@@ -149,7 +149,7 @@ namespace Coordinates {
 
         [Test]
         public void PolarTransform() {
-            var c = new coordinates(1d, math.PI / 2d);
+            var c = new coordinates(1d, math.PI_DBL / 2d);
             var v_world = new double2(-2d, 3d);
             var T_polar = c.PolarTransform();
             var expected = new double2(2d, 3d);
@@ -160,7 +160,7 @@ namespace Coordinates {
 
         [Test]
         public void PolarTransform_Vector() {
-            var c = new coordinates(1d, math.PI / 2d);
+            var c = new coordinates(1d, math.PI_DBL / 2d);
             var v_world = new double2(-2d, 3d);
             var expected = new double2(2d, 3d);
             var actual = c.PolarTransform(v_world);
@@ -170,7 +170,7 @@ namespace Coordinates {
 
         [Test]
         public void ToWorldVector() {
-            var c = new coordinates(2d, math.PI / 2d);
+            var c = new coordinates(2d, math.PI_DBL / 2d);
             var expected = new double2(0d, 2d);
             var actual = c.ToWorldVector();
             Assert.AreEqual(expected.x, actual.x, tolerance);
@@ -179,7 +179,7 @@ namespace Coordinates {
 
         [Test]
         public void ToWorldVector_PolarVector() {
-            var c = new coordinates(1d, math.PI / 2d);
+            var c = new coordinates(1d, math.PI_DBL / 2d);
             var v_polar = new double2(2d, 3d);
             var expected = new double2(-2d, 4d);
             var actual = c.ToWorldVector(v_polar);
@@ -189,9 +189,9 @@ namespace Coordinates {
 
         [Test]
         public void Update() {
-            var pos = new coordinates(2d, -math.PI / 2d);
+            var pos = new coordinates(2d, -math.PI_DBL / 2d);
             var v_polar = new double2(-2d, -2d);
-            var expected = new coordinates(2d, math.PI);
+            var expected = new coordinates(2d, math.PI_DBL);
             var actual = pos.Update(v_polar);
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(
@@ -203,9 +203,9 @@ namespace Coordinates {
 
         [Test]
         public void RelativeToWorldVector() {
-            var pos = new coordinates(2d, -math.PI / 2d);
+            var pos = new coordinates(2d, -math.PI_DBL / 2d);
             var v_polar = new double2(-2d, -2d);
-            var expected = new coordinates(2d, math.PI);
+            var expected = new coordinates(2d, math.PI_DBL);
             var actual = pos.Update(v_polar);
             Assert.AreEqual(expected.r, actual.r, tolerance);
             Assert.AreEqual(

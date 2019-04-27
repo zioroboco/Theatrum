@@ -41,7 +41,7 @@ namespace Orbital {
     }
 
     public static double wrap(double radians) {
-      return wrapMinMax(radians, -math.PI, math.PI);
+      return wrapMinMax(radians, -math.PI_DBL, math.PI_DBL);
     }
 
     public bool Equals(angle rhs) {

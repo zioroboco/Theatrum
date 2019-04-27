@@ -79,50 +79,50 @@ namespace Angle {
         [Test]
         public void FromVectors_PiOnTwo() {
             var actual = new angle(a, b);
-            var expected = new angle(math.PI / 2d);
+            var expected = new angle(math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
         [Test]
         public void FromVectors_PiOnTwo_Signed() {
             var actual = new angle(b, a);
-            var expected = new angle(-math.PI / 2d);
+            var expected = new angle(-math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
         [Test]
         public void FromVectors_Pi() {
             var actual = new angle(a, -a);
-            var expected = new angle(math.PI);
+            var expected = new angle(math.PI_DBL);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
         [Test]
         public void FromVectors_Negative_PiOnTwo() {
             var actual = new angle(a, -b);
-            var expected = new angle(-math.PI / 2d);
+            var expected = new angle(-math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
 
         [Test]
         public void FromDouble_Negative_SevenPiOnTwo() {
-            var actual = new angle(-7d * math.PI / 2d);
-            var expected = new angle(math.PI / 2d);
+            var actual = new angle(-7d * math.PI_DBL / 2d);
+            var expected = new angle(math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
         [Test]
         public void FromSingleVector() {
             var actual = new angle(b);
-            var expected = new angle(math.PI / 2d);
+            var expected = new angle(math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
         [Test]
         public void FromSingleVector_Signed() {
             var actual = new angle(-b);
-            var expected = new angle(-math.PI / 2d);
+            var expected = new angle(-math.PI_DBL / 2d);
             Assert.AreEqual(expected.radians, actual.radians, tolerance);
         }
 
@@ -141,50 +141,50 @@ namespace Angle {
 
         [Test]
         public void Wrap_PiOnTwo() {
-            var actual = angle.wrap(math.PI / 2d);
-            var expected = math.PI / 2d;
+            var actual = angle.wrap(math.PI_DBL / 2d);
+            var expected = math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_Pi() {
-            var actual = angle.wrap(math.PI);
-            var expected = -math.PI;
+            var actual = angle.wrap(math.PI_DBL);
+            var expected = -math.PI_DBL;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_ThreePiOnTwo() {
-            var actual = angle.wrap(3d * math.PI / 2d);
-            var expected = -math.PI / 2d;
+            var actual = angle.wrap(3d * math.PI_DBL / 2d);
+            var expected = -math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_Negative_ThreePiOnTwo() {
-            var actual = angle.wrap(-3d * math.PI / 2d);
-            var expected = math.PI / 2d;
+            var actual = angle.wrap(-3d * math.PI_DBL / 2d);
+            var expected = math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_FivePiOnTwo() {
-            var actual = angle.wrap(5d * math.PI / 2d);
-            var expected = math.PI / 2d;
+            var actual = angle.wrap(5d * math.PI_DBL / 2d);
+            var expected = math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_Negative_FivePiOnTwo() {
-            var actual = angle.wrap(-5d * math.PI / 2d);
-            var expected = -math.PI / 2d;
+            var actual = angle.wrap(-5d * math.PI_DBL / 2d);
+            var expected = -math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
 
         [Test]
         public void Wrap_Negative_SevenPiOnTwo() {
-            var actual = angle.wrap(-7d * math.PI / 2d);
-            var expected = math.PI / 2d;
+            var actual = angle.wrap(-7d * math.PI_DBL / 2d);
+            var expected = math.PI_DBL / 2d;
             Assert.AreEqual(expected, actual, tolerance);
         }
     }
@@ -197,7 +197,7 @@ namespace Angle {
 
         [Test]
         public void Radial_North() {
-            var actual = new angle(math.PI / 2d).Radial();
+            var actual = new angle(math.PI_DBL / 2d).Radial();
             var expected = yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
@@ -205,7 +205,7 @@ namespace Angle {
 
         [Test]
         public void Radial_South() {
-            var actual = new angle(-math.PI / 2d).Radial();
+            var actual = new angle(-math.PI_DBL / 2d).Radial();
             var expected = -yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
@@ -221,7 +221,7 @@ namespace Angle {
 
         [Test]
         public void Radial_West() {
-            var actual = new angle(math.PI).Radial();
+            var actual = new angle(math.PI_DBL).Radial();
             var expected = -xHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
@@ -229,7 +229,7 @@ namespace Angle {
 
         [Test]
         public void Perpendicular_North() {
-            var actual = new angle(math.PI / 2d).Perpendicular();
+            var actual = new angle(math.PI_DBL / 2d).Perpendicular();
             var expected = -xHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
@@ -237,7 +237,7 @@ namespace Angle {
 
         [Test]
         public void Perpendicular_South() {
-            var actual = new angle(-math.PI / 2d).Perpendicular();
+            var actual = new angle(-math.PI_DBL / 2d).Perpendicular();
             var expected = xHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
@@ -253,7 +253,7 @@ namespace Angle {
 
         [Test]
         public void Perpendicular_West() {
-            var actual = new angle(math.PI).Perpendicular();
+            var actual = new angle(math.PI_DBL).Perpendicular();
             var expected = -yHat;
             Assert.AreEqual(expected.x, actual.x, tolerance);
             Assert.AreEqual(expected.y, actual.y, tolerance);
